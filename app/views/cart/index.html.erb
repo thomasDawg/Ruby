@@ -1,0 +1,63 @@
+<h2>Din handlekurv: </h2><br>
+<% if @cart.empty? %>
+    <% else %>
+    <%= link_to 'Empty your cart', cart_clear_path %>
+<% end %>
+
+<% total = 0%>
+
+<ul><br><br>
+<% @cart.each do |id, quantity| %>
+   <% laptop = Laptop.find_by_id(id) %>
+  <li>
+    <p><%= laptop.name%></p>
+    <p><%= number_to_currency(laptop.price, :unit => '')%>,-</p>
+    <p>Quantity: <%= quantity %></p>
+    <% total += laptop.price * quantity %>
+  </li>
+      <br>
+      <br>
+<% end %>
+  <p><b>Total:  <%= number_to_currency(total, :unit => '')%>,-</b></p>
+</ul>
+
+<%= form_tag charges_path do %>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+
+    <button id="customButton" class="btn btn-large btn-primary">Kjøp nå</button>
+
+    <script>
+      var handler = StripeCheckout.configure({
+        key: "<%= Rails.configuration.stripe[:publishable_key] %>",
+        token: function(response, addresses) {
+          var tokenInput = $("<input type=hidden name=stripeToken />").val(response.id);
+          var emailInput = $("<input type=hidden name=stripeEmail />").val(response.email);
+          var amountInput = $("<input type=hidden name=stripeAmount />").val(<%= total * 100 %>);
+          var shippingName = $("<input type=hidden name=stripeShippingName />").val(addresses.shipping_name);
+          var shippingLine1 = $("<input type=hidden name=stripeShippingAddressLine1 />").val(addresses.shipping_address_line1);
+          var shippingZip = $("<input type=hidden name=stripeShippingAddressZip />").val(addresses.shipping_address_zip);
+          var shippingState = $("<input type=hidden name=stripeShippingAddressState />").val(addresses.shipping_address_state);
+          var shippingCity = $("<input type=hidden name=stripeShippingAddressCity />").val(addresses.shipping_address_city);
+          var shippingCountry = $("<input type=hidden name=stripeShippingAddressCountry />").val(addresses.shipping_address_country);
+          $("form").append(tokenInput).append(emailInput).append(amountInput).append(shippingName).append(shippingLine1).append(shippingZip).append(shippingState).append(shippingCity).append(shippingCountry).submit();
+        }
+      });
+
+      document.getElementById('customButton').addEventListener('click', function(e) {
+        // Open Checkout with further options
+
+        handler.open({
+          name: 'Lapshop',
+          description: 'Kjøp av datamaskin',
+          amount: "<%= total * 100 %>",
+          currency: "nok",
+          shippingAddress: true,
+          billingAddress: true,
+          receipt_email: true
+        });
+        e.preventDefault();
+      });
+    </script>
+<% end %>
+
+<%= link_to 'Tilbake til forsiden',root_url   %>

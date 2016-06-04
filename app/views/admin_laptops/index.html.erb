@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+</head>
+<body>
+      <h2>Admin Panel</h2>
+      <%= link_to 'Ny Laptop',  new_admin_laptop_path %>
+      <table width="100%">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Ram</th>
+            <th>CPU</th>
+            <th>weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @laptops.each do |laptop| %>
+            <tr>
+              <td><%= laptop.name %></td>
+              <td><%= laptop.description %></td>
+              <td><%= laptop.price %></td>
+              <td><%= laptop.quantity %></td>
+              <td><%= laptop.ram %></td>
+              <td><%= laptop.cpu %></td>
+              <td><%= laptop.weight %></td>
+              <td><%= link_to 'Show', edit_admin_laptop_path(laptop) %></td>
+              <td><%= link_to 'Edit', edit_admin_laptop_path(laptop) %></td>
+              <td><%= link_to 'Destroy', admin_laptop_path(laptop.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+        <% end %>
+            </tbody>
+            </table>
+
+
+</body>
+</html>

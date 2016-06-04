@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lapshop</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+
+  <title>LapShop</title>
+</head>
+<body>
+<%= render 'layouts/nav'%>
+
+<div id="flash">
+  <%= render 'layouts/messages' %>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    setTimeout(function(){
+      $('#flash').remove();
+    }, 3000);
+  })
+</script>
+
+
+
+<%= yield %>
+<div class="container">
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+
+    <div class="row text-center">
+      <div class="col-lg-12">
+        <p>Copyright &copy; LapShop 2016</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

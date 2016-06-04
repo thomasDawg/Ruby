@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <% if user_signed_in? %>
+        <% if current_user.admin? %>
+              <h2>Admin Panel Testddddee</h2>
+              <%= link_to 'Laptops', admin_laptops_path %>
+          <% end %>
+      <% end %>
+
+
+    </div>
+    <div class="col-md-9">
+      <div class="row carousel-holder">
+        <div class="col-md-12">
+          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="item active">
+                <img class="slide-image" src="http://placehold.it/800x300" alt="">
+              </div>
+              <div class="item">
+                <img class="slide-image" src="http://placehold.it/800x300" alt="">
+              </div>
+              <div class="item">
+                <img class="slide-image" src="http://placehold.it/800x300" alt="">
+              </div>
+            </div>
+            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      <!--laptops-->
+        <% @laptops.each do |laptop| %>
+        <div class="col-sm-4 col-lg-4 col-md-4">
+          <div class="thumbnail">
+            <%= image_tag laptop.image.url %>
+            <div class="caption">
+
+              <p><b><%= laptop.name %></b></p>
+              <p><%= laptop.description %></p>
+              <p><b>Pris: <%= laptop.price %>,-</b></p>
+              <a href="/laptops/<%= laptop.id %>">Les mer</a>
+            </div>
+            <a class="btn btn-primary" href="/cart/<%= laptop.id %>">Kjøp</a>
+            </div>
+          </div>
+        <% end %>
+        <div class="col-sm-4 col-lg-4 col-md-4">
+          <h4><a href="#">Liker du det du ser?</a>
+          </h4>
+          <p>Dersom du vil kan du gjerne prøve deg på våres auksjon, her blir det solgt all slags laptoper. Er du heldig kan du klare å stikke av med et røverkjøp!!</p>
+          <a class="btn btn-primary" target="_blank" href="#">Gå til auksjonen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
